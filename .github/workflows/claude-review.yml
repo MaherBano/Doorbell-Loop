@@ -1,0 +1,31 @@
+name: Claude PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+
+    steps:
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            Review this pull request carefully.
+
+            Look for:
+            - Bugs
+            - Incorrect logic
+            - Edge cases
+            - Security problems
+            - Problems introduced by this PR
+
+            Do not modify the code.
+            Post your findings as a review comment on the pull request.
